@@ -26,7 +26,6 @@ class FilmsFavouriteFragment : Fragment() {
     private val viewModel by viewModels<FilmsViewModel>({ activity as MainActivity }) { viewModelFactory }
     private var _binding: RecyclerFilmsBinding? = null
     private val binding get() = _binding!!
-
     private val filmCardAdapter = FilmCardsAdapter(
         onItemClicked = {
             viewModel.refreshFilmPoster(it.id.toString())
@@ -57,12 +56,13 @@ class FilmsFavouriteFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         binding.recyclerFilms.adapter = filmCardAdapter
-        binding.recyclerFilms.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        binding.recyclerFilms.layoutManager =
+            LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         viewModel.filmCardsFavourite.observe(viewLifecycleOwner) {
             filmCardAdapter.submitList(it)
             binding.progressBarFilms.visibility = GONE
         }
     }
 }
+

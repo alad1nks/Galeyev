@@ -39,6 +39,7 @@ class FilmsTopFragment : Fragment() {
             )
         },
         onItemLongClicked = {
+            it.favourite = R.drawable.favourite_star
             viewModel.addFavouriteFilm(it.id)
         }
     )
@@ -69,6 +70,9 @@ class FilmsTopFragment : Fragment() {
         viewModel.status.observe(viewLifecycleOwner) {
             bind(it)
         }
+        binding.refreshButton.setOnClickListener {
+            viewModel.getFilmCards()
+        }
     }
 
     override fun onDestroyView() {
@@ -82,10 +86,13 @@ class FilmsTopFragment : Fragment() {
                 binding.progressBarFilms.visibility = GONE
             }
             Status.LOADING -> {
+                binding.error.visibility = GONE
                 binding.progressBarFilms.visibility = VISIBLE
             }
-
-            else -> {}
+            else -> {
+                binding.progressBarFilms.visibility = GONE
+                binding.error.visibility = VISIBLE
+            }
         }
     }
 }

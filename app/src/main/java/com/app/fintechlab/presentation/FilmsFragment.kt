@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.app.fintechlab.R
 import com.app.fintechlab.databinding.FragmentFilmsBinding
@@ -47,6 +47,12 @@ class FilmsFragment : Fragment() {
                 }
             )
         }.attach()
+
+        for (i in 0..1) {
+            val textView = LayoutInflater.from(requireContext()).inflate(R.layout.tab_title, null)
+                    as TextView
+            binding.tabLayout.getTabAt(i)?.customView = textView
+        }
     }
 
     override fun onDestroyView() {

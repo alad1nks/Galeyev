@@ -7,5 +7,5 @@ data class FilmCard(
     val name: String,
     val genreYear: String,
     val posterUrlPreview: String,
-    @DrawableRes val favourite: Int
+    @DrawableRes var favourite: Int
 )

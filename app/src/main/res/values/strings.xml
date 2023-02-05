@@ -2,4 +2,6 @@
     <string name="app_name">FIntechLab</string>
     <string name="title_popular">Популярные</string>
     <string name="title_favourite">Избранное</string>
+    <string name="title_refresh">Повторить</string>
+    <string name="message_error">Произошла ошибка при загрузке данных, проверьте подключение к сети</string>
 </resources>

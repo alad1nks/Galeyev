@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -16,6 +17,7 @@ import com.app.fintechlab.FilmsApp
 import com.app.fintechlab.databinding.FragmentFilmPosterBinding
 import com.app.fintechlab.presentation.FilmsViewModel
 import com.app.fintechlab.presentation.MainActivity
+import com.app.fintechlab.presentation.entities.Status
 import javax.inject.Inject
 
 class FilmPosterFragment : Fragment() {
@@ -50,6 +52,11 @@ class FilmPosterFragment : Fragment() {
             binding.filmDescription.text = it.description
             binding.filmGenres.text = it.genres
             binding.filmCountries.text = it.countries
+        }
+        viewModel.posterStatus.observe(viewLifecycleOwner) {
+            if (it == Status.ERROR) {
+                Toast.makeText(context, "Проверьте подключение к сети", Toast.LENGTH_SHORT).show()
+            }
         }
         binding.backButton.setOnClickListener {
             it.findNavController().popBackStack()

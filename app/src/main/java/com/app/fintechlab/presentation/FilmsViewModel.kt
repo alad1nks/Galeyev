@@ -29,11 +29,14 @@ class FilmsViewModel @Inject constructor(
     private val _status = MutableLiveData<Status>()
     val status: LiveData<Status> = _status
 
+    private val _posterStatus = MutableLiveData<Status>()
+    val posterStatus: LiveData<Status> = _posterStatus
+
     init {
         getFilmCards()
     }
 
-    private fun getFilmCards() {
+    fun getFilmCards() {
         _status.value = Status.LOADING
         viewModelScope.launch(Dispatchers.IO) {
             try {
@@ -43,6 +46,8 @@ class FilmsViewModel @Inject constructor(
                 _filmCardsFavourite.postValue(filmsRepository.getFavouriteFilmCards())
                 _status.postValue(Status.DONE)
             } catch (e: IOException) {
+                filmsRepository.refreshFavouriteFilms()
+                _filmCardsFavourite.postValue(filmsRepository.getFavouriteFilmCards())
                 _status.postValue(Status.ERROR)
                 _filmCardsTop.postValue(listOf())
             }
@@ -50,9 +55,16 @@ class FilmsViewModel @Inject constructor(
     }
 
     fun refreshFilmPoster(id: String) {
+        _posterStatus.value = Status.LOADING
         viewModelScope.launch(Dispatchers.IO) {
-            filmsRepository.refreshFilmPoster(id)
-            _filmPoster.postValue(filmsRepository.getFilmPoster())
+            try {
+                filmsRepository.refreshFilmPoster(id)
+                _filmPoster.postValue(filmsRepository.getFilmPoster())
+                _posterStatus.postValue(Status.DONE)
+            } catch (e: IOException) {
+                _filmPoster.postValue(FilmPoster("", "", "", "", ""))
+                _posterStatus.postValue(Status.ERROR)
+            }
         }
     }
 
