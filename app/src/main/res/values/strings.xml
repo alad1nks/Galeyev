@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">FIntechLab</string>
+    <string name="title_popular">Популярные</string>
+    <string name="title_favourite">Избранное</string>
+</resources>
